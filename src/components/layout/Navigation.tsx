@@ -11,19 +11,24 @@ export const Navigation = ({ activeTab, setActiveTab }: any) => {
 
   return (
     <nav style={{
-      position: 'fixed', bottom: 0, width: '100%', height: '65px',
-      background: '#1a1a1a', display: 'flex', justifyContent: 'space-around',
-      alignItems: 'center', borderTop: '1px solid #333', paddingBottom: 'env(safe-area-inset-bottom)'
+      position: 'absolute', bottom: 0, left: 0, width: '100%', height: '80px',
+      background: 'rgba(28, 28, 30, 0.85)', backdropFilter: 'blur(15px)', WebkitBackdropFilter: 'blur(15px)',
+      display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', paddingTop: '12px',
+      borderTop: '1px solid rgba(255,255,255,0.05)', zIndex: 100
     }}>
-      {tabs.map(tab => (
-        <div key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
-          color: activeTab === tab.id ? '#4caf50' : '#666',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer'
-        }}>
-          <tab.icon size={22} />
-          <span style={{ fontSize: '10px', marginTop: '4px' }}>{tab.label}</span>
-        </div>
-      ))}
+      {tabs.map(tab => {
+        const isActive = activeTab === tab.id;
+        return (
+          <div key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
+            color: isActive ? 'var(--accent)' : '#8e8e93',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer',
+            transition: 'color 0.2s', width: '60px'
+          }}>
+            <tab.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+            <span style={{ fontSize: '10px', marginTop: '6px', fontWeight: isActive ? '600' : '500' }}>{tab.label}</span>
+          </div>
+        );
+      })}
     </nav>
   );
 };

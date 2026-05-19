@@ -12,11 +12,11 @@ export const Trends = () => {
   if (logs.length < 3) {
       return (
           <>
-            <h2 style={{ marginBottom: '20px', marginTop: 0 }}>Trends</h2>
-            <div className="card" style={{ textAlign: 'center', padding: '30px 15px' }}>
-                <span style={{ fontSize: '40px' }}>📊</span>
-                <p style={{ color: '#888' }}>Not enough data yet.</p>
-                <p style={{ fontSize: '14px' }}>Log your flare-ups and lifestyle for at least 3 days to see insights and trends here.</p>
+            <h2 style={{ marginBottom: '20px', marginTop: '10px' }}>Trends</h2>
+            <div className="card" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                <span style={{ fontSize: '48px', display: 'block', marginBottom: '10px' }}>📊</span>
+                <p style={{ color: 'var(--text)', fontSize: '18px', fontWeight: '600' }}>Not enough data yet</p>
+                <p style={{ fontSize: '14px', color: 'var(--text-dim)', lineHeight: '1.5' }}>Log your flare-ups and lifestyle for at least 3 days to unlock insights and trends here.</p>
             </div>
           </>
       )
@@ -38,45 +38,44 @@ export const Trends = () => {
 
   return (
     <>
-      <h2 style={{ marginBottom: '20px', marginTop: 0 }}>Trends & Analytics</h2>
+      <h2 style={{ marginBottom: '20px', marginTop: '10px' }}>Trends & Analytics</h2>
       
       <div className="card">
-         <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px' }}>OVERALL AVERAGES</div>
+         <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px', letterSpacing: '1px' }}>OVERALL AVERAGES</div>
          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-             <div style={{ background: '#2a2a2a', padding: '15px', borderRadius: '8px', textAlign: 'center' }}>
-                 <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--error)' }}>{avgSeverity}</div>
-                 <div style={{ fontSize: '12px', color: '#888' }}>AVG SEVERITY</div>
+             <div style={{ background: '#2a2a2c', padding: '20px 10px', borderRadius: '14px', textAlign: 'center' }}>
+                 <div style={{ fontSize: '28px', fontWeight: 'bold', color: 'var(--error)', marginBottom: '4px' }}>{avgSeverity}</div>
+                 <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '600', letterSpacing: '0.5px' }}>AVG SEVERITY</div>
              </div>
-             <div style={{ background: '#2a2a2a', padding: '15px', borderRadius: '8px', textAlign: 'center' }}>
-                 <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--accent-blue)' }}>{avgSleep}h</div>
-                 <div style={{ fontSize: '12px', color: '#888' }}>AVG SLEEP</div>
+             <div style={{ background: '#2a2a2c', padding: '20px 10px', borderRadius: '14px', textAlign: 'center' }}>
+                 <div style={{ fontSize: '28px', fontWeight: 'bold', color: 'var(--accent-blue)', marginBottom: '4px' }}>{avgSleep}h</div>
+                 <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '600', letterSpacing: '0.5px' }}>AVG SLEEP</div>
              </div>
          </div>
       </div>
 
-      <div className="card" style={{ borderTop: '3px solid var(--accent-blue)' }}>
-         <div style={{ color: 'var(--accent-blue)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px' }}>THE DATA SCIENTIST</div>
+      <div className="card" style={{ borderTop: '4px solid var(--accent-blue)' }}>
+         <div style={{ color: 'var(--accent-blue)', fontSize: '12px', fontWeight: 'bold', marginBottom: '18px', letterSpacing: '1px' }}>THE DATA SCIENTIST</div>
          
-         <div style={{ marginBottom: '15px' }}>
-             <div style={{ fontSize: '14px', marginBottom: '5px' }}>Flare Severity with <b>Good Sleep (&gt;7h)</b>:</div>
-             <div style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--accent)' }}>{goodSleepSeverity} <span style={{fontSize:'14px', fontWeight:'normal', color:'#888'}}>/ 10</span></div>
+         <div style={{ marginBottom: '20px', background: '#1a1a1c', padding: '15px', borderRadius: '12px' }}>
+             <div style={{ fontSize: '14px', marginBottom: '8px', color: 'var(--text-dim)' }}>Flare Severity with <b style={{color: 'white'}}>Good Sleep (&gt;7h)</b>:</div>
+             <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--accent)' }}>{goodSleepSeverity} <span style={{fontSize:'14px', fontWeight:'normal', color:'var(--text-dim)'}}>/ 10</span></div>
          </div>
          
-         <div>
-             <div style={{ fontSize: '14px', marginBottom: '5px' }}>Flare Severity with <b>Poor Sleep (≤6h)</b>:</div>
-             <div style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--error)' }}>{badSleepSeverity} <span style={{fontSize:'14px', fontWeight:'normal', color:'#888'}}>/ 10</span></div>
+         <div style={{ background: '#1a1a1c', padding: '15px', borderRadius: '12px' }}>
+             <div style={{ fontSize: '14px', marginBottom: '8px', color: 'var(--text-dim)' }}>Flare Severity with <b style={{color: 'white'}}>Poor Sleep (≤6h)</b>:</div>
+             <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--error)' }}>{badSleepSeverity} <span style={{fontSize:'14px', fontWeight:'normal', color:'var(--text-dim)'}}>/ 10</span></div>
          </div>
          
-         <p style={{ fontSize: '12px', color: '#888', marginTop: '15px', fontStyle: 'italic' }}>
-             * Insights get more accurate as you log more days.
+         <p style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '20px', textAlign: 'center' }}>
+             Insights become more accurate as you log more days.
          </p>
       </div>
       
-      {/* Placeholder for a future chart */}
       <div className="card">
-         <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '10px' }}>SEVERITY OVER TIME</div>
-         <div style={{ background: '#2a2a2a', height: '120px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ color: '#555', fontSize: '12px' }}>[ Interactive Line Chart Coming Soon ]</span>
+         <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px', letterSpacing: '1px' }}>SEVERITY OVER TIME</div>
+         <div style={{ background: '#2a2a2c', height: '140px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ color: '#666', fontSize: '13px', fontWeight: '500' }}>[ Interactive Line Chart Coming Soon ]</span>
          </div>
       </div>
     </>
