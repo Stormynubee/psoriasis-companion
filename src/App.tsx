@@ -5,6 +5,7 @@ import { MedChecklist } from './components/dashboard/MedChecklist';
 import { BodyMap } from './components/dashboard/BodyMap';
 import { useInsights } from './hooks/useInsights';
 import { Settings } from './components/settings/Settings';
+import { DetailedLog } from './components/log/DetailedLog';
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -29,7 +30,7 @@ function App() {
     <div style={{ padding: '20px', paddingBottom: '80px' }}>
       {activeTab === 'home' && <Dashboard />}
       {activeTab === 'history' && <h2>History View (Calendar)</h2>}
-      {activeTab === 'log' && <h2>Add Detailed Log</h2>}
+      {activeTab === 'log' && <DetailedLog setActiveTab={setActiveTab} />}
       {activeTab === 'trends' && <h2>Trends & Analytics</h2>}
       {activeTab === 'settings' && <Settings />}
       <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
