@@ -58,7 +58,7 @@ export const Trends = () => {
          <div style={{ color: 'var(--accent-blue)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px' }}>THE DATA SCIENTIST</div>
          
          <div style={{ marginBottom: '15px' }}>
-             <div style={{ fontSize: '14px', marginBottom: '5px' }}>Flare Severity with <b>Good Sleep (>7h)</b>:</div>
+             <div style={{ fontSize: '14px', marginBottom: '5px' }}>Flare Severity with <b>Good Sleep (&gt;7h)</b>:</div>
              <div style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--accent)' }}>{goodSleepSeverity} <span style={{fontSize:'14px', fontWeight:'normal', color:'#888'}}>/ 10</span></div>
          </div>
          
