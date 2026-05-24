@@ -71,8 +71,14 @@ export const useDwellClick = (
           setDwellProgress(progress);
 
           if (elapsed >= dwellTimeMs) {
-            // Trigger Dwell Click!
-            interactiveEl.click();
+            // Trigger Dwell Click with synthetic coordinate-injected event
+            const clickEvent = new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              clientX: x,
+              clientY: y
+            });
+            interactiveEl.dispatchEvent(clickEvent);
             
             // Add a brief scale feedback
             const originalTransform = interactiveEl.style.transform;

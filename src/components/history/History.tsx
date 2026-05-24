@@ -16,18 +16,18 @@ export const History = () => {
 
   return (
     <>
-      <h2 style={{ marginBottom: '20px', marginTop: '10px' }}>History</h2>
+      <h2 className="card-stagger-1" style={{ marginBottom: '20px', marginTop: '10px' }}>History</h2>
       
       {!logs ? (
         <p>Loading history...</p>
       ) : logs.length === 0 ? (
-        <div className="card">
+        <div className="card card-stagger-2">
            <p style={{ textAlign: 'center', color: '#888' }}>No logs yet. Start logging to see your history here.</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {logs.map(log => (
-            <div key={log.id} className="card" style={{ marginBottom: 0 }}>
+          {logs.map((log, idx) => (
+            <div key={log.id} className={`card card-stagger-${Math.min(idx + 2, 3)}`} style={{ marginBottom: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px', marginBottom: '15px' }}>
                 <span style={{ fontWeight: 'bold', fontSize: '16px', color: 'var(--accent-blue)' }}>
                   {new Date(log.date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}

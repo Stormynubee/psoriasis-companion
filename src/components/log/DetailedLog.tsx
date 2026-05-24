@@ -58,9 +58,9 @@ export const DetailedLog = ({ setActiveTab }: any) => {
 
   return (
     <>
-      <h2 style={{ marginBottom: '20px', marginTop: '10px' }}>Log Flare-Up</h2>
+      <h2 className="card-stagger-1" style={{ marginBottom: '20px', marginTop: '10px' }}>Log Flare-Up</h2>
       <form onSubmit={handleSave}>
-        <div className="card">
+        <div className="card card-stagger-1">
           <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px', letterSpacing: '1px' }}>VISUAL</div>
           {photo ? (
             <div style={{ position: 'relative', marginBottom: '10px' }}>
@@ -82,7 +82,7 @@ export const DetailedLog = ({ setActiveTab }: any) => {
           )}
         </div>
 
-        <div className="card">
+        <div className="card card-stagger-2">
           <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '20px', letterSpacing: '1px' }}>SYMPTOMS</div>
           
           <div style={{ marginBottom: '25px' }}>
@@ -102,7 +102,7 @@ export const DetailedLog = ({ setActiveTab }: any) => {
           </div>
         </div>
 
-        <div className="card">
+        <div className="card card-stagger-2">
            <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px', letterSpacing: '1px' }}>LIFESTYLE</div>
            <div style={{ display: 'flex', gap: '15px' }}>
               <div style={{ flex: 1 }}>
@@ -120,7 +120,7 @@ export const DetailedLog = ({ setActiveTab }: any) => {
            </div>
         </div>
 
-        <div className="card">
+        <div className="card card-stagger-3">
           <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '15px', letterSpacing: '1px' }}>NOTES</div>
           <textarea 
             value={note}
@@ -130,7 +130,7 @@ export const DetailedLog = ({ setActiveTab }: any) => {
           />
         </div>
 
-        <button type="submit" style={{ width: '100%', padding: '16px', background: 'var(--accent-blue)', color: 'white', border: 'none', borderRadius: '14px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', boxShadow: '0 4px 15px rgba(10, 132, 255, 0.4)' }}>
+        <button type="submit" className="card-stagger-3" style={{ width: '100%', padding: '16px', background: 'var(--accent-blue)', color: 'white', border: 'none', borderRadius: '14px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', boxShadow: '0 4px 15px rgba(10, 132, 255, 0.4)' }}>
           <Save size={22} /> Save Daily Log
         </button>
       </form>

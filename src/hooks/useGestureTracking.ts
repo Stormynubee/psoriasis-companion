@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
+export type TrackingStatus = 'OFFLINE' | 'SEARCHING' | 'ACTIVE' | 'NO_WEBCAM' | 'PERMISSION_BLOCKED';
+
 export const useGestureTracking = (active: boolean, alpha: number = 0.35) => {
   const [coords, setCoords] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
   const [gesture, setGesture] = useState<'none' | 'point' | 'pinch' | 'swipe_left' | 'swipe_right'>('none');
   const [fps, setFps] = useState(0);
-  const [trackingActive, setTrackingActive] = useState(false);
+  const [trackingStatus, setTrackingStatus] = useState<TrackingStatus>('OFFLINE');
+  const [rawLandmarks, setRawLandmarks] = useState<any[]>([]);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   
   const prevCoordsRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
@@ -13,10 +16,12 @@ export const useGestureTracking = (active: boolean, alpha: number = 0.35) => {
 
   useEffect(() => {
     if (!active) {
-      setTrackingActive(false);
+      setTrackingStatus('OFFLINE');
+      setRawLandmarks([]);
       return;
     }
 
+    setTrackingStatus('SEARCHING');
     let camera: any = null;
     const video = document.createElement('video');
     video.style.display = 'none';
@@ -44,8 +49,8 @@ export const useGestureTracking = (active: boolean, alpha: number = 0.35) => {
 
         hands.onResults((results: any) => {
           const hasHands = !!(results.multiHandLandmarks && results.multiHandLandmarks[0]);
-          setTrackingActive(hasHands);
-          
+          setTrackingStatus(hasHands ? 'ACTIVE' : 'SEARCHING');
+
           const now = Date.now();
           const frameFps = Math.round(1000 / (now - lastFrameTimeRef.current));
           lastFrameTimeRef.current = now;
@@ -53,25 +58,22 @@ export const useGestureTracking = (active: boolean, alpha: number = 0.35) => {
 
           if (hasHands) {
             const landmarks = results.multiHandLandmarks[0];
-            const indexTip = landmarks[8];
+            setRawLandmarks(landmarks);
             
-            // Mirror coordinates for webcam
+            const indexTip = landmarks[8];
             const screenX = (1 - indexTip.x) * window.innerWidth;
             const screenY = indexTip.y * window.innerHeight;
             
-            // Exponential Moving Average (EMA) coordinate smoothing
             const smoothedX = alpha * screenX + (1 - alpha) * prevCoordsRef.current.x;
             const smoothedY = alpha * screenY + (1 - alpha) * prevCoordsRef.current.y;
             
             prevCoordsRef.current = { x: smoothedX, y: smoothedY };
             setCoords({ x: smoothedX, y: smoothedY });
 
-            // Pinch detection (Index tip landmark 8, Thumb tip landmark 4)
             const thumbTip = landmarks[4];
             const distance = Math.hypot(indexTip.x - thumbTip.x, indexTip.y - thumbTip.y);
             const isPinching = distance < 0.045;
             
-            // Lateral swipe detection (Wrist velocity tracking)
             const wrist = landmarks[0];
             const currTime = Date.now();
             if (currTime > swipeCooldownRef.current) {
@@ -91,8 +93,23 @@ export const useGestureTracking = (active: boolean, alpha: number = 0.35) => {
             }
 
             setGesture(isPinching ? 'pinch' : 'point');
+          } else {
+            setRawLandmarks([]);
           }
         });
+
+        // Request webcam access safely to catch permission rejections
+        try {
+          await navigator.mediaDevices.getUserMedia({ video: true });
+        } catch (mediaErr: any) {
+          if (mediaErr.name === 'NotAllowedError' || mediaErr.name === 'PermissionDeniedError') {
+            setTrackingStatus('PERMISSION_BLOCKED');
+            return;
+          } else {
+            setTrackingStatus('NO_WEBCAM');
+            return;
+          }
+        }
 
         camera = new Camera(video, {
           onFrame: async () => {
@@ -107,19 +124,19 @@ export const useGestureTracking = (active: boolean, alpha: number = 0.35) => {
         await camera.start();
       } catch (err) {
         console.error("Aether MediaPipe initialization failed:", err);
+        setTrackingStatus('NO_WEBCAM');
       }
     };
 
     initMediaPipe();
 
     return () => {
-      if (camera) {
-        camera.stop();
-      }
+      if (camera) camera.stop();
       video.remove();
     };
   }, [active, alpha]);
 
-  return { coords, gesture, fps, trackingActive };
+  return { coords, gesture, fps, trackingStatus, rawLandmarks };
 };
+
 export default useGestureTracking;

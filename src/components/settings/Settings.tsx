@@ -27,9 +27,9 @@ export const Settings = () => {
 
   return (
     <>
-      <h2 style={{ marginBottom: '20px', marginTop: '10px' }}>Settings</h2>
+      <h2 className="card-stagger-1" style={{ marginBottom: '20px', marginTop: '10px' }}>Settings</h2>
       
-      <div className="card">
+      <div className="card card-stagger-1">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
           <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px' }}>MY MEDICATIONS</div>
           <button 
@@ -93,7 +93,7 @@ export const Settings = () => {
         )}
       </div>
 
-      <div className="card">
+      <div className="card card-stagger-2">
          <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '20px', letterSpacing: '1px' }}>APP PREFERENCES</div>
          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '15px', borderBottom: '1px solid var(--border)', marginBottom: '15px' }}>
             <span style={{ fontSize: '15px', fontWeight: '500' }}>Push Notifications</span>
@@ -105,7 +105,7 @@ export const Settings = () => {
           </div>
       </div>
 
-      <div className="card">
+      <div className="card card-stagger-3">
          <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '20px', letterSpacing: '1px' }}>AETHER GESTURES ACCESSIBILITY</div>
          
          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '15px', borderBottom: '1px solid var(--border)', marginBottom: '15px' }}>
