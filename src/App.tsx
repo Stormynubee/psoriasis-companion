@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.css';
 import { Navigation } from './components/layout/Navigation';
 import { MedChecklist } from './components/dashboard/MedChecklist';
@@ -8,10 +8,55 @@ import { Settings } from './components/settings/Settings';
 import { DetailedLog } from './components/log/DetailedLog';
 import { History } from './components/history/History';
 import { Trends } from './components/trends/Trends';
+import { useGestureTracking } from './hooks/useGestureTracking';
+import { useDwellClick } from './hooks/useDwellClick';
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
   const insight = useInsights();
+
+  // Load Aether accessibility configs
+  const [aetherActive, setAetherActive] = useState(false);
+  const [alpha, setAlpha] = useState(0.35);
+  const [dwellTime, setDwellTime] = useState(1500);
+
+  useEffect(() => {
+    const active = JSON.parse(localStorage.getItem('aether_active') || 'false');
+    const a = parseFloat(localStorage.getItem('aether_alpha') || '0.35');
+    const d = parseInt(localStorage.getItem('aether_dwell') || '1500');
+    setAetherActive(active);
+    setAlpha(a);
+    setDwellTime(d);
+
+    // Listen to local settings adjustment events
+    const handleStorageChange = () => {
+      const activeNew = JSON.parse(localStorage.getItem('aether_active') || 'false');
+      const aNew = parseFloat(localStorage.getItem('aether_alpha') || '0.35');
+      const dNew = parseInt(localStorage.getItem('aether_dwell') || '1500');
+      setAetherActive(activeNew);
+      setAlpha(aNew);
+      setDwellTime(dNew);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // Hook Instantiations
+  const { coords, gesture, fps, trackingActive } = useGestureTracking(aetherActive, alpha);
+  const { dwellProgress } = useDwellClick(aetherActive, coords.x, coords.y, dwellTime);
+
+  // Swipe Action Listener for cycling tabs
+  useEffect(() => {
+    const tabs = ['home', 'history', 'log', 'trends', 'settings'];
+    const currIndex = tabs.indexOf(activeTab);
+    
+    if (gesture === 'swipe_left' && currIndex < tabs.length - 1) {
+      setActiveTab(tabs[currIndex + 1]);
+    } else if (gesture === 'swipe_right' && currIndex > 0) {
+      setActiveTab(tabs[currIndex - 1]);
+    }
+  }, [gesture]);
 
   const Dashboard = () => (
     <>
@@ -36,6 +81,31 @@ function App() {
       {activeTab === 'trends' && <Trends />}
       {activeTab === 'settings' && <Settings />}
       <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      {/* Floating Glowing Reticle Cursor */}
+      {aetherActive && (
+        <div className="aether-pointer" style={{ left: `${coords.x}px`, top: `${coords.y}px` }}>
+          <svg className="dwell-ring">
+            <circle 
+              className="dwell-ring-circle" 
+              cx="18" 
+              cy="18" 
+              r="15" 
+              style={{ strokeDashoffset: 100 - dwellProgress }}
+            />
+          </svg>
+        </div>
+      )}
+
+      {/* Glassmorphic Side diagnostic HUD Panel */}
+      {aetherActive && (
+        <div className="aether-hud-panel">
+          <div style={{ color: 'var(--accent)', fontWeight: 'bold', marginBottom: '6px', fontSize: '11px', letterSpacing: '1px' }}>AETHER HUD v2.0</div>
+          <div style={{ marginBottom: '4px' }}>CAMERA: <span style={{ color: trackingActive ? '#00ffff' : '#ff0055', fontWeight: 'bold' }}>{trackingActive ? 'TRACKING' : 'SEARCHING'}</span></div>
+          <div style={{ marginBottom: '4px' }}>FPS: {fps}</div>
+          <div>GESTURE: <span style={{ color: 'var(--hud-magenta)', fontWeight: 'bold', textTransform: 'uppercase' }}>{gesture}</span></div>
+        </div>
+      )}
     </div>
   );
 }

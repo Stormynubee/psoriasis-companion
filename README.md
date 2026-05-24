@@ -1,47 +1,79 @@
-# 🌿 Psoriasis Companion
+# 🌿🖐️ Psoriasis Companion (with Aether Touchless Control)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Vercel-Deployed-success?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Deploy" />
-  <img src="https://img.shields.io/badge/React-19.0-blue?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Vercel-Active-success?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Deploy" />
+  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-Strict-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/MediaPipe-Landmarks-00E5FF?style=for-the-badge&logo=google&logoColor=black" alt="MediaPipe" />
   <img src="https://img.shields.io/badge/Dexie.js-IndexedDB-orange?style=for-the-badge&logo=database&logoColor=white" alt="Dexie" />
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
+  <img src="https://img.shields.io/badge/Accessibility-First-FF9500?style=for-the-badge" alt="Accessibility First" />
 </p>
 
-A privacy-first, offline-capable **Progressive Web App (PWA)** designed to help individuals track chronic psoriasis flare-ups, schedule daily medication routines, log anatomical inflammation spots, and correlate personal lifestyle habits (stress, sleep, diet) with overall skin wellness.
+A privacy-first, offline-capable **Progressive Web App (PWA)** built to help individuals track chronic psoriasis flare-ups, schedule medication routines, and analyze wellness correlations—now integrated with the **Aether Hands v2.0** computer vision engine.
+
+Featuring completely **touchless gestural control**, this application solves the daily physical strain faced by individuals with severe joint pain, psoriatic arthritis, dactylitis ("sausage fingers"), or painful cracking skin on their palms and fingers by allowing them to navigate and log symptoms entirely in mid-air.
 
 🌐 **[Launch Live Application](https://psoriasis-companion.vercel.app)**
 
 ---
 
-## 🔒 Offline-First & Privacy-First Architecture
+## 🩺 The Accessibility Breakthrough
 
-Health information is highly sensitive. Psoriasis Companion is designed with a **Local-First** design pattern. All data, symptoms logs, medication check-ins, and high-resolution skin photos are stored exclusively inside the browser's sandboxed **IndexedDB** database. No network telemetry or medical trackers are used.
+Standard digital inputs (tapping hard glass touchscreens, clicking mouse keys, or keyboard typing) require high physical pressure and fine-motor finger movement. For someone with severe palm plaques or inflamed joints, this interaction is exhausting, splits bleeding skin, and worsens symptoms.
+
+**Psoriasis Companion with Aether Control** shifts input from the tactile realm to the optical realm:
+* **Zero Skin Contact:** Camera tracking replaces glass tapping.
+* **No Joint Squeezing:** Eliminates painful physical pinch movements.
+* **EMA Smoothing Filter:** Dampens high-frequency webcam hand jitter to create a smooth, high-precision cursor overlay.
+
+---
+
+## 🔒 Offline-First, Privacy-First Architecture
+
+Health data is highly sensitive. This app operates under a **Local-First** model. All camera frames captured during gestural tracking are processed purely in local browser memory client-side using MediaPipe's Web SDK. No video feed, coordinates, symptom logs, or skin photos are ever uploaded to a server or third-party service.
 
 ```mermaid
 graph TD
-    A[User Device / Browser] -->|Install PWA| B[Service Worker Caching]
-    B -->|Offline Shell assets| C[Vite PWA Manifest]
+    A[Webcam Feed] -->|Client-Side Frame| B[MediaPipe JS SDK]
+    B -->|21 3D Joint Landmarks| C[useGestureTracking Hook]
     
-    A -->|Track Symptoms & Photos| D[React 19 Core States]
-    D -->|Write Schema Transaction| E[Dexie.js API Layer]
-    E -->|Encrypt & Store Base64| F[(Browser IndexedDB)]
+    C -->|Lateral wrist velocity| D[Air Swipes: Cycle Tabs]
+    C -->|EMA Dampening Filter| E[Glow Cursor Reticle]
     
-    F -->|Fetch Logs & Habits| G[Data Scientist Engine]
-    G -->|Run Statistical Correlation| H[useInsights Custom Hook]
-    H -->|Deliver Dynamic Graph Metrics| I[Visual Insights Dashboard]
+    E -->|Coordinate overlap check| F[useDwellClick Hook]
+    F -->|Hover still 1.5s| G[Programmatic Click Trigger]
+    
+    G -->|Med Checkbox / Tab Select| H[React App State]
+    G -->|SVG Body Map Placement| I[Body Map Silhouette]
+    
+    H & I -->|Store schema transactions| J[Dexie.js Offline Layer]
+    J -->|Encrypted Base64 Storage| K[(Browser IndexedDB)]
 ```
+
+---
+
+## 🖐️ Touchless Gestural Matrix
+
+When **Touchless Gesture Mode** is activated under settings, the user controls a floating glowing cursor via natural, mid-air movements.
+
+| Gesture | Action Target | Visual Indicator | Accessibility Benefit |
+| :--- | :--- | :--- | :--- |
+| **Hover Pointer** | Moves the floating neon-cyan cursor | Glowing reticle following index tip | Requires no screen contact or physical pressure |
+| **Dwell (Hover 1.5s)** | Triggers left click on buttons/inputs | Neon-magenta circular stroke ring loading | Eliminates the need to physically pinch or tap |
+| **Air Swipe Left** | Switches to next panel (right) | HUD feedback label | Zero fine-motor finger motion required |
+| **Air Swipe Right** | Switches to previous panel (left) | HUD feedback label | Zero fine-motor finger motion required |
+| **Body Map Hover** | Selects anatomical flare-up spots | Glowing red dot indicator | Mark inflammation maps touchlessly |
 
 ---
 
 ## 🚀 Key Features
 
-* **📱 Installable Progressive Web App (PWA):** Installs natively on iOS or Android viewports directly from browser tabs. Caches assets for complete offline capability.
-* **🔒 Zero-Server Storage:** Uses Dexie.js (a reactive IndexedDB wrapper) to save full symptom histories and Base64-encoded logs directly onto device hardware.
-* **🗺️ Anatomical Silhouette Mapping:** Features an interactive human body vector silhouette, allowing users to map exactly where localized flare-ups are active.
-* **📸 Photographic Flare Journals:** Captures high-contrast camera feeds, maps severity ranks (1–10), and logs daily stressors (diet, sleep duration, mood).
-* **📊 Correlative Analytics Engine:** The built-in "Data Scientist" analyzer parses local IndexedDB logs to correlate sleep levels and stress ratings with flare-up severities.
-* **🌙 Dark Mode Interface:** A high-contrast, accessible dark interface designed to reduce visual strain.
+* **📱 Installable Progressive Web App (PWA):** Installs natively on iOS or Android directly from the browser, offering offline capabilities.
+* **🔒 Zero-Server Storage:** All symptom timeline histories, logs, and photos reside securely on device hardware via Dexie.js (IndexedDB wrapper).
+* **🗺️ Touchless Body Silhouette Mapping:** Features a minimalist vector silhouette where users hover their hand in mid-air to map active flare-up regions.
+* **⚙️ Custom Accessibility Sliders:** Directly adjust the **Cursor Smoothing weight (EMA Alpha)** and **Dwell Delay Speed** from the settings panel.
+* **📊 Correlative Analytics Engine:** Compares symptom logs with lifestyle metrics (stress, sleep) to provide personalized skin wellness insights.
+* **🌙 Cyber-HUD Dashboard:** A semi-transparent glassmorphic edge menu displaying active webcam channels, FPS rates, and tracking quality indicators.
 
 ---
 
@@ -51,20 +83,20 @@ graph TD
 ├── public/                 # PWA icons, manifest files, and static graphics
 ├── src/
 │   ├── components/
-│   │   ├── dashboard/      # Core dashboard modules (MedChecklist, Silhouette BodyMap)
+│   │   ├── dashboard/      # MedChecklist, Silhouette BodyMap
 │   │   ├── history/        # Timeline logs, calendars, and past details
-│   │   ├── layout/         # Dynamic sidebar navigation and PWA wrapper shell
+│   │   ├── layout/         # Navigation and PWA wrapper shell
 │   │   ├── log/            # Photo input and symptom evaluation sliders
-│   │   ├── settings/       # Routine schedulers and medication setups
+│   │   ├── settings/       # Medication schedulers and Gesture preferences
 │   │   └── trends/         # Analytics charts and custom insight logs
 │   ├── db/                 # Dexie.js schema declarations and DB instantiations
-│   ├── hooks/              # useInsights correlation hook
-│   ├── App.tsx             # Route management and context providers
+│   ├── hooks/
+│   │   ├── useGestureTracking.ts  # MediaPipe setup, EMA filter, swipe velocity
+│   │   ├── useDwellClick.ts       # Coordinate overlap scanner & dwell timer clock
+│   │   └── useInsights.ts         # Lifestyle symptoms correlation analyzer
+│   ├── App.tsx             # Shell layout mounting, custom reticles & Edge HUD
 │   ├── main.tsx            # Main bootstrap entry
-│   └── index.css           # Custom CSS variables, themes, and scrollbars
-├── index.html              # Core app frame
-├── vite.config.ts          # Vite build options & PWA configuration
-└── tsconfig.json           # Compiler rules
+│   └── index.css           # Custom CSS variables, neon cursor, HUD panels
 ```
 
 ---
@@ -73,7 +105,7 @@ graph TD
 
 ### ⚙️ System Requirements
 * **Node.js:** Version 18.0 or higher
-* **Package Manager:** npm or yarn
+* **Package Manager:** npm
 
 ### 🚀 Setup Steps
 1. **Clone the repository:**
@@ -82,30 +114,22 @@ graph TD
    cd psoriasis-companion
    ```
 
-2. **Acquire & Install node packages:**
+2. **Install node packages:**
    ```bash
    npm install
    ```
 
-3. **Start the local hot-reload server:**
+3. **Start the local hot-reload dev server:**
    ```bash
    npm run dev
    ```
-
-4. **Access the local sandbox:**
    Open browser target: `http://localhost:5173`.
 
----
-
-## 🤝 Open-Source Contribution Guide
-
-Contributions are highly valued. To add features or submit UI adjustments:
-
-1. **Fork** the Repository.
-2. Initialize a branch: `git checkout -b feature/AmazingFeature`.
-3. Stage and commit: `git commit -m "feat: add beautiful correlation metric"`.
-4. Push code: `git push origin feature/AmazingFeature`.
-5. Open a **Pull Request**.
+4. **Verify the TDD Hook Test Suite:**
+   Run our comprehensive Vitest unit tests confirming the dwell-click timer accuracy:
+   ```bash
+   npm run test
+   ```
 
 ---
 
@@ -114,4 +138,4 @@ Contributions are highly valued. To add features or submit UI adjustments:
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-*Designed with care for the chronic illness and neurodivergent community by Stormynubee.*
+*Designed with care for the chronic illness, disabled, and neurodivergent community by Stormynubee | Digital Reality Architect.*

@@ -103,3 +103,75 @@ input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus {
 .toggle:checked::after {
   transform: translateX(18px);
 }
+
+/* --- Aether Gestures Touchless HUD & Reticle Pointer Styles --- */
+:root {
+  --hud-amber: #ff9500;
+  --hud-cyan: #00ffff;
+  --hud-magenta: #ff00ff;
+  --hud-glass: rgba(28, 28, 30, 0.85);
+}
+
+.aether-pointer {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--hud-cyan);
+  background: rgba(0, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  filter: drop-shadow(0 0 8px var(--hud-cyan));
+  transition: width 0.1s, height 0.1s;
+}
+
+.aether-pointer::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--hud-magenta);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 4px var(--hud-magenta));
+}
+
+.dwell-ring {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 36px;
+  height: 36px;
+  transform: rotate(-90deg);
+}
+
+.dwell-ring-circle {
+  fill: none;
+  stroke: var(--hud-magenta);
+  stroke-width: 3;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 0.05s linear;
+}
+
+.aether-hud-panel {
+  position: fixed;
+  bottom: 95px;
+  right: 20px;
+  width: 180px;
+  background: var(--hud-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 12px;
+  z-index: 1000;
+  font-family: monospace;
+  font-size: 11px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-left: 3px solid var(--hud-cyan);
+}
+

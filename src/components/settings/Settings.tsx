@@ -104,6 +104,64 @@ export const Settings = () => {
             <input type="checkbox" className="toggle" defaultChecked />
           </div>
       </div>
+
+      <div className="card">
+         <div style={{ color: 'var(--text-dim)', fontSize: '12px', fontWeight: 'bold', marginBottom: '20px', letterSpacing: '1px' }}>AETHER GESTURES ACCESSIBILITY</div>
+         
+         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '15px', borderBottom: '1px solid var(--border)', marginBottom: '15px' }}>
+            <div>
+              <span style={{ fontSize: '15px', fontWeight: '500', display: 'block' }}>Touchless Gesture Mode</span>
+              <span style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Navigate using physical hand gestures</span>
+            </div>
+            <input 
+              type="checkbox" 
+              className="toggle" 
+              checked={JSON.parse(localStorage.getItem('aether_active') || 'false')}
+              onChange={(e) => {
+                localStorage.setItem('aether_active', JSON.stringify(e.target.checked));
+                window.location.reload();
+              }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '500' }}>Pointer Smoothness (EMA Alpha)</span>
+                <span style={{ color: 'var(--accent)', fontWeight: 'bold' }}>{parseFloat(localStorage.getItem('aether_alpha') || '0.35')}</span>
+             </div>
+             <input 
+               type="range" 
+               min="0.1" 
+               max="0.9" 
+               step="0.05"
+               value={parseFloat(localStorage.getItem('aether_alpha') || '0.35')}
+               onChange={(e) => {
+                 localStorage.setItem('aether_alpha', e.target.value);
+                 window.dispatchEvent(new Event('storage'));
+               }}
+               style={{ width: '100%' }}
+             />
+          </div>
+
+          <div>
+             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '500' }}>Dwell Click Delay (seconds)</span>
+                <span style={{ color: 'var(--accent)', fontWeight: 'bold' }}>{(parseInt(localStorage.getItem('aether_dwell') || '1500') / 1000).toFixed(1)}s</span>
+             </div>
+             <input 
+               type="range" 
+               min="800" 
+               max="3000" 
+               step="100"
+               value={parseInt(localStorage.getItem('aether_dwell') || '1500')}
+               onChange={(e) => {
+                 localStorage.setItem('aether_dwell', e.target.value);
+                 window.dispatchEvent(new Event('storage'));
+               }}
+               style={{ width: '100%' }}
+             />
+          </div>
+      </div>
     </>
   );
 };
